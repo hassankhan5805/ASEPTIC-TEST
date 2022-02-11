@@ -24,39 +24,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> {
-  double lowValue = 3;
-  double highValue = 3;
   String wifiNetwork = "loadcellesp";
-  bool isChannelConnected = false;
   bool isWifiConnected = false;
   bool isMobileInternet = false;
   bool ledstatus = false;
   Socket channel;
   String reciever = "";
-  bool isPluginEnabled = false;
-
-  Future<void> sendcmd(String cmd) async {
-    try {
-      channel.write(cmd);
-    } catch (_) {
-      print("error on sending msg.");
-    }
-  }
-
-  Future<bool> connectionValue;
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   connectionValue = test();
-  // }
-
-  bool connection = false;
-  bool insideLoop = false;
-  bool testSuccess = false;
   String status = "";
-  Future<bool> test() async {
-    bool connection = await WiFiForIoTPlugin.isEnabled();
-    return connection;
-  }
 
   Future<void> check() async {
     print("check called");

@@ -1,10 +1,6 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
-// import 'package:wakelock/wakelock.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iot/home.dart';
-// import 'package:screen/screen.dart';
 import 'package:wifi_iot/wifi_iot.dart';
 
 class FlutterWifiIoT extends StatefulWidget {
@@ -29,16 +25,6 @@ class _FlutterWifiIoTState extends State<FlutterWifiIoT> {
 
     super.initState();
     // Wakelock.enable(); 
-    initPlatformState();
-  }
-
-  initPlatformState() async {
-    // bool keptOn = await Screen.isKeptOn;
-    // double brightness = await Screen.brightness;
-    setState(() {
-      // _isKeptOn = keptOn;
-      // _brightness = brightness;
-    });
   }
 
   getWifis() async {
@@ -51,19 +37,6 @@ class _FlutterWifiIoTState extends State<FlutterWifiIoT> {
             ssid = "hasa";
           }));
     }
-  }
-
-  Future<List<APClient>> getClientList(
-      bool onlyReachables, int reachableTimeout) async {
-    List<APClient> htResultClient;
-    try {
-      htResultClient = await WiFiForIoTPlugin.getClientList(
-          onlyReachables, reachableTimeout);
-    } on PlatformException {
-      htResultClient = List<APClient>();
-    }
-
-    return htResultClient;
   }
 
   Future<List<WifiNetwork>> loadWifiList() async {
@@ -79,45 +52,6 @@ class _FlutterWifiIoTState extends State<FlutterWifiIoT> {
 
   isRegisteredWifiNetwork(String ssid) {
     return ssid == this.ssid;
-  }
-
-  Widget getWidgets(context) {
-    WiFiForIoTPlugin.isConnected().then((val) => setState(() {
-          _isConnected = val;
-        }));
-
-    return SingleChildScrollView(
-      child: Column(
-        children: getButtonWidgetsForAndroid(context),
-      ),
-    );
-  }
-
-  List<Widget> getButtonWidgetsForAndroid(context) {
-    List<Widget> htPrimaryWidgets = List();
-    WiFiForIoTPlugin.isEnabled().then((val) => setState(() {
-          _isEnabled = val;
-        }));
-    htPrimaryWidgets.addAll({
-      SizedBox(height: 10),
-      Text(
-        'Wi-Fis Found',
-        style: TextStyle(fontSize: 25),
-        textAlign: TextAlign.center,
-      ),
-      getList(context)
-    });
-    if (_isEnabled) {
-      WiFiForIoTPlugin.isConnected().then((val) {
-        if (val != null) {
-          setState(() {
-            _isConnected = val;
-          });
-        }
-      });
-    }
-
-    return htPrimaryWidgets;
   }
 
   getList(contex) {
@@ -137,7 +71,7 @@ class _FlutterWifiIoTState extends State<FlutterWifiIoT> {
                 title:
                     Text(network.ssid, style: TextStyle(color: Colors.black)),
                 trailing: !isConnctedWifi
-                    ? OutlineButton(
+                    ? ElevatedButton(
                         onPressed: () {
                           Navigator.of(contex)
                               .push(MaterialPageRoute(builder: (_) => Home()));
@@ -156,11 +90,4 @@ class _FlutterWifiIoTState extends State<FlutterWifiIoT> {
       shrinkWrap: true,
     );
   }
-}
-
-class PopupCommand {
-  String command;
-  String argument;
-
-  PopupCommand(this.command, this.argument);
 }

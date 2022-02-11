@@ -7,6 +7,3 @@ void main() {
       MaterialApp(debugShowCheckedModeBanner: false, home: FlutterWifiIoT()));
   Wakelock.enable();
 }
-
-
-//
